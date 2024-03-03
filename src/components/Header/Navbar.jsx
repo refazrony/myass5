@@ -1,3 +1,7 @@
+import logo from '../../assets/logo.svg'
+import search from '../../assets/icons/search.svg'
+
+
 function Navbar() {
     return (
 
@@ -6,7 +10,7 @@ function Navbar() {
                 {/* Logo */}
                 <div>
                     <a href="./index.html">
-                        <img className="w-32" src="./assets/logo.svg" alt="lws" />
+                        <img className="w-32" src={logo} alt="lws" />
                     </a>
                 </div>
                 {/* Actions - Login, Write, Home, Search */}
@@ -28,7 +32,8 @@ function Navbar() {
                                 href="./search.html"
                                 className="flex items-center gap-2 cursor-pointer"
                             >
-                                <img src="./assets/icons/search.svg" alt="Search" />
+                                <img src={search}
+                                    alt="Search" />
                                 <span>Search</span>
                             </a>
                         </li>
@@ -43,7 +48,7 @@ function Navbar() {
                         <li className="flex items-center">
                             {/* Circular Div with background color */}
                             <div className="avater-img bg-orange-600 text-white">
-                                <span className="">S</span>
+                                <span >S</span>
                                 {/* User's first name initial */}
                             </div>
                             {/* Logged-in user's name */}

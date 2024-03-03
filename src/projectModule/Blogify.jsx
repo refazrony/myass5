@@ -1,6 +1,8 @@
+import Navbar from "../components/Header/Navbar";
+
 function Blogify() {
     return (
-        <h1>Blogify Main UI</h1>
+        <Navbar />
     );
 }
 
