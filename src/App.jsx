@@ -1,10 +1,13 @@
+import Blogify from "./projectModule/Blogify"
+
 
 
 function App() {
 
 
   return (
-    <h1 className='text-red-700'>rony</h1>
+
+    <Blogify />
   )
 }
 
