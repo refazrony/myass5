@@ -1,8 +1,11 @@
-import Navbar from "../components/Header/Navbar";
+import { RouterProvider } from "react-router-dom";
+import useAppRouters from "../Hooks/useAppRouters";
 
 function Blogify() {
+    const routers = useAppRouters();
     return (
-        <Navbar />
+
+        <RouterProvider router={routers} />
     );
 }
 

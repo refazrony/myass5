@@ -1,17 +1,25 @@
 import logo from '../../assets/logo.svg'
 import search from '../../assets/icons/search.svg'
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 
 function Navbar() {
+
+    const [isSearchShow] = useState(true);
+
+
+
+
     return (
 
         <header>
             <nav className="container">
                 {/* Logo */}
                 <div>
-                    <a href="./index.html">
+                    <Link to="/" >
                         <img className="w-32" src={logo} alt="lws" />
-                    </a>
+                    </Link>
                 </div>
                 {/* Actions - Login, Write, Home, Search */}
                 {/* Notes for Developers */}
@@ -20,29 +28,27 @@ function Navbar() {
                 <div>
                     <ul className="flex items-center space-x-5">
                         <li>
-                            <a
-                                href="./createBlog.html"
+                            <Link
+                                to="createBlog"
                                 className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
                             >
                                 Write
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a
-                                href="./search.html"
-                                className="flex items-center gap-2 cursor-pointer"
-                            >
+
+                            <Link to="search" className="flex items-center gap-2 cursor-pointer">
                                 <img src={search}
                                     alt="Search" />
                                 <span>Search</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <a
                                 href="./login.html"
                                 className="text-white/50 hover:text-white transition-all duration-200"
                             >
-                                Login
+                                {isSearchShow ? "Logout" : "Login"}
                             </a>
                         </li>
                         <li className="flex items-center">
@@ -52,9 +58,9 @@ function Navbar() {
                                 {/* User's first name initial */}
                             </div>
                             {/* Logged-in user's name */}
-                            <a href="./profile.html">
+                            <Link to="profile">
                                 <span className="text-white ml-2">Saad Hasan</span>
-                            </a>
+                            </Link>
                             {/* Profile Image */}
                         </li>
                     </ul>
