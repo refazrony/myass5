@@ -3,6 +3,7 @@ import Home from "../Pages/Blogify/Home"
 import CreateBlog from "../Pages/Blogify/CreateBlog"
 import Profile from "../Pages/Blogify/Profile"
 import Search from "../Pages/Blogify/Search"
+import Indx from "../Pages/Blogify/Indx"
 
 function useAppRouters() {
 
@@ -13,6 +14,7 @@ function useAppRouters() {
             path: "/",
             element: <Home />,
             children: [
+                { index: true, element: <Indx /> },
                 {
                     path: "/createBlog",
                     element: <CreateBlog />,

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import closeIcon from '../../assets/icons/close.svg';
 
 function Search() {
 
@@ -85,7 +86,7 @@ function Search() {
                 </div>
 
                 <a onClick={() => nav(-1)}>
-                    <img src="./assets/icons/close.svg" alt="Close" className="absolute right-2 top-2 cursor-pointer w-8 h-8" />
+                    <img src={closeIcon} alt="Close" className="absolute right-2 top-2 cursor-pointer w-8 h-8" />
                 </a>
             </div>
         </section>

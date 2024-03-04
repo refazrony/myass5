@@ -41,3 +41,52 @@ nav {
   line-height: 1.25rem;
   font-weight: 700;
 }
+
+.blog-card {
+  display: flex;
+  cursor: pointer;
+  /* flex-direction: column; */
+  gap: 1rem;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-color: rgb(30 41 59 / 0.4);
+  --tw-bg-opacity: 1;
+  background-color: rgb(3 3 23 / var(--tw-bg-opacity));
+  padding: 0.75rem;
+  --tw-shadow-color: rgb(226 232 240 / 0.5);
+  --tw-shadow: var(--tw-shadow-colored);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.blog-thumb {
+  aspect-ratio: 16 / 9;
+  max-height: 12rem;
+  border-radius: 0.375rem;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+body {
+  margin: 0;
+  line-height: inherit;
+}
