@@ -1,14 +1,15 @@
 import logo from '../../assets/logo.svg'
 import search from '../../assets/icons/search.svg'
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { SearchContext } from '../../constexts';
 
 
 function Navbar() {
 
     const [isSearchShow] = useState(true);
 
-
+    const { setSearchEnable } = useContext(SearchContext);
 
 
     return (
@@ -37,11 +38,11 @@ function Navbar() {
                         </li>
                         <li>
 
-                            <Link to="search" className="flex items-center gap-2 cursor-pointer">
+                            <a onClick={() => setSearchEnable(true)} className="flex items-center gap-2 cursor-pointer">
                                 <img src={search}
                                     alt="Search" />
                                 <span>Search</span>
-                            </Link>
+                            </a>
                         </li>
                         <li>
                             <a

@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
+
 import closeIcon from '../../assets/icons/close.svg';
+import { useContext } from "react";
+import { SearchContext } from "../../constexts";
 
 function Search() {
 
-    const nav = useNavigate();
+    const { setSearchEnable } = useContext(SearchContext);
+
     return (
 
         <section className="absolute left-0 top-0 w-full h-full grid place-items-center bg-slate-800/50 backdrop-blur-sm z-50">
@@ -85,7 +88,7 @@ function Search() {
                     </div>
                 </div>
 
-                <a onClick={() => nav(-1)}>
+                <a onClick={() => setSearchEnable(false)}>
                     <img src={closeIcon} alt="Close" className="absolute right-2 top-2 cursor-pointer w-8 h-8" />
                 </a>
             </div>

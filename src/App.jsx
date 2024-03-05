@@ -1,10 +1,13 @@
+import SearchCtxProvider from "./constexts/Providers/SearchCtxProvider"
 import Blogify from "./projectModule/Blogify"
 
 
 
 function App() {
   return (
-    <Blogify />
+    <SearchCtxProvider>
+      <Blogify />
+    </SearchCtxProvider>
   )
 }
 
