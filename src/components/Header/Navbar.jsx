@@ -7,7 +7,7 @@ import { SearchContext } from '../../constexts';
 
 function Navbar() {
 
-    const [isSearchShow] = useState(true);
+    const [islogin] = useState(false);
 
     const { setSearchEnable } = useContext(SearchContext);
 
@@ -45,12 +45,18 @@ function Navbar() {
                             </a>
                         </li>
                         <li>
-                            <a
-                                href="./login.html"
-                                className="text-white/50 hover:text-white transition-all duration-200"
-                            >
-                                {isSearchShow ? "Logout" : "Login"}
-                            </a>
+
+
+                            {islogin ? (
+                                <a
+                                    href="./login.html"
+                                    className="text-white/50 hover:text-white transition-all duration-200"
+                                >
+                                    Logout
+                                </a>
+                            ) : (<Link to="login">Login</Link>)}
+
+
                         </li>
                         <li className="flex items-center">
                             {/* Circular Div with background color */}

@@ -1,27 +1,27 @@
-import ReactRoadmap from "../../assets/blogs/React-Roadmap.jpg"
+/* eslint-disable react/prop-types */
+
 import Tdots from "../../assets/icons/3dots.svg"
 import edit from "../../assets/icons/edit.svg"
 import Delete from "../../assets/icons/delete.svg"
 
-function BlogCard() {
+function BlogCard({ blogInfo }) {
+    console.log(blogInfo.title);
     return (
 
         <div className="blog-card">
             <img
                 className="blog-thumb"
-                src={ReactRoadmap}
+                src={"http://localhost:3000/uploads/blog/" + blogInfo.thumbnail}
                 alt=""
             />
             <div className="mt-2 relative">
                 <a href="./single-blog.html"></a>
                 <h3 className="text-slate-300 text-xl lg:text-2xl">
                     <a href="./single-blog.html"></a>
-                    <a href="./single-blog.html">React Roadmap in 2024</a>
+                    <a href="./single-blog.html">{blogInfo.title}</a>
                 </h3>
                 <p className="mb-6 text-base text-slate-500 mt-1">
-                    Aenean eleifend ante maecenas pulvinar montes lorem et pede dis
-                    dolor pretium donec dictum. Vici consequat justo enim. Venenatis
-                    eget adipiscing luctus lorem.
+                    {blogInfo.content}
                 </p>
                 {/* Meta Informations */}
                 <div className="flex justify-between items-center">

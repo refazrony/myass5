@@ -3,6 +3,7 @@ import Navbar from "../../components/Header/Navbar"
 import Search from "./Search";
 import { useContext } from "react";
 import { SearchContext } from "../../constexts";
+import Footer from "../../components/Footer";
 
 function Home() {
     const { searchEnable } = useContext(SearchContext);
@@ -12,6 +13,7 @@ function Home() {
             <Navbar />
             {searchEnable && <Search />}
             <Outlet />
+            <Footer />
         </>
 
     );

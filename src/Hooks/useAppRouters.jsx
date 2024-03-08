@@ -4,6 +4,9 @@ import CreateBlog from "../Pages/Blogify/CreateBlog"
 import Profile from "../Pages/Blogify/Profile"
 import Search from "../Pages/Blogify/Search"
 import Indx from "../Pages/Blogify/Indx"
+import Login from "../Pages/Blogify/Login";
+import Register from "../Pages/Blogify/Register";
+
 
 function useAppRouters() {
 
@@ -31,18 +34,16 @@ function useAppRouters() {
                     path: "/profile",
                     element: <Profile />,
                 },
+                {
+                    path: "/login",
+                    element: <Login />
+                },
+                {
+                    path: "/register",
+                    element: <Register />,
+                },
             ]
-        },
-        {
-            path: "/login",
-            element: <div>login</div>,
-        },
-        {
-            path: "/register",
-            element: <div>register</div>,
-        },
-
-
+        }
     ]);
 
     return routers;
