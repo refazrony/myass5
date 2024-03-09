@@ -2,7 +2,6 @@ import logo from '../assets/logo.svg'
 
 function Footer() {
     return (
-
         <footer className="my-6 md:my-8 bg-[#030317]">
             <div className="container mx-auto flex items-center justify-between">
                 <a href="/">

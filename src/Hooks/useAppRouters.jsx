@@ -6,6 +6,8 @@ import Search from "../Pages/Blogify/Search"
 import Indx from "../Pages/Blogify/Indx"
 import Login from "../Pages/Blogify/Login";
 import Register from "../Pages/Blogify/Register";
+import Singleblog from "../Pages/Blogify/Singleblog";
+
 
 
 function useAppRouters() {
@@ -23,8 +25,16 @@ function useAppRouters() {
                     element: <CreateBlog />,
                 },
                 {
+                    path: "/singleblog/:id",
+                    element: <Singleblog />,
+                },
+                {
                     path: "/search",
                     element: <Search />,
+                },
+                {
+                    path: "/login",
+                    element: <Login />
                 },
                 {
                     path: "/logOut",
@@ -35,15 +45,12 @@ function useAppRouters() {
                     element: <Profile />,
                 },
                 {
-                    path: "/login",
-                    element: <Login />
-                },
-                {
                     path: "/register",
                     element: <Register />,
                 },
             ]
-        }
+        },
+
     ]);
 
     return routers;

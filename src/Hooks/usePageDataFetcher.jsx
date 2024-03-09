@@ -10,7 +10,6 @@ function usePageDataFetcher(url) {
     const fetchData = async () => {
         try {
 
-
             console.log(isLastPage);
             if (!isLastPage) {
                 // setIsLoading(true);
@@ -21,21 +20,16 @@ function usePageDataFetcher(url) {
                 // Append new data to existing data
                 const { blogs } = responseData;
                 totalPage.current = Math.round(responseData.total / responseData.limit);
-                console.log(totalPage.current)
-                console.log(`Total page ${totalPage.current} exeute page ${page.current}`)
 
                 setData((prevData) => [...prevData, ...blogs]);
-
-                //setPage((prevPage) => prevPage + 1);
-
 
                 if (totalPage.current == page.current) {
                     setLastPage(true);
                     window.removeEventListener("scroll", handleInfiniteScroll);
-                    console.log("removeEventListener " + isLastPage);
+
                 } else {
                     page.current = page.current + 1;
-                    console.log(`Total page ${totalPage.current} next page ${page.current}`)
+
                 }
             }
 
@@ -82,6 +76,11 @@ function usePageDataFetcher(url) {
         window.addEventListener("scroll", handleInfiniteScroll);
 
         fetchData();
+
+        return () => {
+            window.removeEventListener("scroll", handleInfiniteScroll);
+            console.log("EventListener cleanup");
+        }
     }, []);
 
 

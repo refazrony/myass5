@@ -1,14 +1,42 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Field from "../../components/Others/Field"
+import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../constexts";
+
+
+
+
 
 function Login() {
+    const { user, setUser, BasedUrl } = useContext(AuthContext);
+    const nav = useNavigate();
 
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const submitForms = (formData) => {
-        console.log(formData);
+    const submitForms = async (formData) => {
+        const requestUrl = `${BasedUrl}/auth/login`;
+        try {
+
+            const response = await axios.post(requestUrl, formData);
+            if (response.status === 200) {
+                setUser(response.data);
+
+                nav('/', { replace: true });
+
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+
     }
+
+    if (Object.keys(user).length) {
+        nav(-1);
+    }
+
 
     return (
         <main>

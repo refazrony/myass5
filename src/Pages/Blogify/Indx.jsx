@@ -1,11 +1,17 @@
+
+import { useContext } from "react";
 import BlogCard from "../../components/Home/BlogCard";
+import MostPopular from "../../components/Home/MostPopular";
 import Loading from "../../components/Others/Loading";
 import usePageDataFetcher from "../../Hooks/usePageDataFetcher";
+import useUserInfo from "../../Hooks/useUserInfo";
+
 
 function Indx() {
 
+    const { user } = useUserInfo();
     const { data, isLastPage } = usePageDataFetcher("http://localhost:3000/blogs?page=");
-
+    console.log(user);
 
 
     return (
@@ -18,7 +24,7 @@ function Indx() {
                         <div className="space-y-3 md:col-span-5">
                             {/* Blog Card Start */}
                             {data.map((blog, i) => (
-                                <BlogCard key={i} blogInfo={blog} />
+                                <BlogCard key={i} blogInfo={blog} userId={user} />
                             ))}
                             <Loading lastPage={isLastPage} />
                             {/* Blog Card End */}
@@ -26,53 +32,11 @@ function Indx() {
                         </div>
                         {/* Sidebar */}
                         <div className="md:col-span-2 h-full w-full space-y-5">
-                            <div className="sidebar-card">
-                                <h3 className="text-slate-300 text-xl lg:text-2xl font-semibold">
-                                    Most Popular 👍️
-                                </h3>
-                                <ul className="space-y-5 my-5">
-                                    <li>
-                                        <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
-                                            How to Auto Deploy a Next.js App on Ubuntu from GitHub
-                                        </h3>
-                                        <p className="text-slate-600 text-sm">
-                                            by
-                                            <a href="./profile.html">Saad Hasan</a>
-                                            <span>·</span> 100 Likes
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
-                                            How to Auto Deploy a Next.js App on Ubuntu from GitHub
-                                        </h3>
-                                        <p className="text-slate-600 text-sm">
-                                            by
-                                            <a href="./profile.html">Saad Hasan</a>
-                                            <span>·</span> 100 Likes
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
-                                            How to Auto Deploy a Next.js App on Ubuntu from GitHub
-                                        </h3>
-                                        <p className="text-slate-600 text-sm">
-                                            by
-                                            <a href="./profile.html">Saad Hasan</a>
-                                            <span>·</span> 100 Likes
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
-                                            How to Auto Deploy a Next.js App on Ubuntu from GitHub
-                                        </h3>
-                                        <p className="text-slate-600 text-sm">
-                                            by
-                                            <a href="./profile.html">Saad Hasan</a>
-                                            <span>·</span> 100 Likes
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
+
+                            <MostPopular />
+
+
+
                             <div className="sidebar-card">
                                 <h3 className="text-slate-300 text-xl lg:text-2xl font-semibold">
                                     Your Favourites ❤️
@@ -112,6 +76,7 @@ function Indx() {
                                     </li>
                                 </ul>
                             </div>
+
                         </div>
                     </div>
                 </div>

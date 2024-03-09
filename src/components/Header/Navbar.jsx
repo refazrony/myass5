@@ -1,17 +1,20 @@
 import logo from '../../assets/logo.svg'
 import search from '../../assets/icons/search.svg'
-import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { SearchContext } from '../../constexts';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext, SearchContext } from '../../constexts';
 
 
 function Navbar() {
 
-    const [islogin] = useState(false);
-
+    const nav = useNavigate();
+    const { user, setUser } = useContext(AuthContext);
     const { setSearchEnable } = useContext(SearchContext);
 
-
+    const handleLogout = () => {
+        setUser({});
+        nav("/");
+    }
     return (
 
         <header>
@@ -47,27 +50,35 @@ function Navbar() {
                         <li>
 
 
-                            {islogin ? (
-                                <a
-                                    href="./login.html"
-                                    className="text-white/50 hover:text-white transition-all duration-200"
-                                >
-                                    Logout
-                                </a>
+                            {Object.keys(user).length ? (
+                                <>
+                                    <a href='#'
+                                        onClick={handleLogout}
+                                        className="text-white/50 hover:text-white transition-all duration-200"
+                                    >
+                                        Logout
+                                    </a>
+
+                                </>
                             ) : (<Link to="login">Login</Link>)}
 
 
                         </li>
                         <li className="flex items-center">
                             {/* Circular Div with background color */}
-                            <div className="avater-img bg-orange-600 text-white">
-                                <span >S</span>
-                                {/* User's first name initial */}
-                            </div>
-                            {/* Logged-in user's name */}
-                            <Link to="profile">
-                                <span className="text-white ml-2">Saad Hasan</span>
-                            </Link>
+
+                            {Object.keys(user).length ? (<>
+                                <div className="avater-img bg-orange-600 text-white">
+                                    <span >S</span>
+
+                                </div>
+                                <Link to="profile">
+                                    <span className="text-white ml-2">Saad Hasan</span>
+                                </Link></>) : (null)
+
+                            }
+
+
                             {/* Profile Image */}
                         </li>
                     </ul>
