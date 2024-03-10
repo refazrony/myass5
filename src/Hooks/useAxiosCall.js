@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 function useAxiosCall() {
   const { user, setUser } = useUserInfo();
-  console.log(user);
 
   useEffect(() => {
     // Add a request interceptor
@@ -32,10 +31,10 @@ function useAxiosCall() {
           originalRequest._retry = true;
 
           try {
-            const refreshToken = user.token.refreshToken;
+            const refreshToken = user?.token?.refreshToken;
             const response = await axios.post(
               `http://localhost:3000/auth/refresh-token`,
-              { refreshToken }
+              refreshToken
             );
             const { token } = response.data;
 
@@ -53,7 +52,7 @@ function useAxiosCall() {
             originalRequest.headers.Authorization = `Bearer ${token}`;
             return axios(originalRequest);
           } catch (error) {
-            console.log(error);
+            console.error(error);
             //throw error;
           }
         }
@@ -65,7 +64,7 @@ function useAxiosCall() {
       api.interceptors.request.eject(requestIntercept);
       api.interceptors.response.eject(responseIntercept);
     };
-  }, [user.token.accessToken]);
+  }, [user?.token?.accessToken]);
 
   return { api };
 }

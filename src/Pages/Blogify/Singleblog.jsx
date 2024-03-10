@@ -10,7 +10,7 @@ function Singleblog() {
     const params = useParams()
     const [singleblog, setSingblog] = useState();
 
-    console.log("http://localhost:3000/uploads/blogs/" + singleblog?.thumbnail);
+
     const getSingleBlog = async () => {
         try {
             const response = await axios.get(`http://localhost:3000/blogs/${params.id}`);

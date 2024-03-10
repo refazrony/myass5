@@ -1,22 +1,32 @@
 import { useForm } from "react-hook-form";
 import Field from "../../components/Others/Field";
-import { useRef } from "react";
+import { api } from "../../api";
+import useAxiosCall from "../../Hooks/useAxiosCall";
+import { useProfile } from "../../Hooks/useProfile";
+import useUserInfo from "../../Hooks/useUserInfo";
+
 
 
 function CreateBlog() {
-
+    const { data } = useUserInfo();
+    const { api } = useAxiosCall();
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
-    const imageSelectorRef = useRef();
 
-
-    const handleCreateBlog = (formData) => {
+    const handleCreateBlog = async (formData) => {
         console.log(formData);
+        try {
+            const response = await api.post(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs`, formData);
+            console.log("response", response);
+            if (response.status === 201) {
+                console.log("Post created successfully", response.data);
+            }
+        } catch (error) {
+            console.log(error);
+
+        }
     }
 
-    const hadleImageSelect = (e) => {
-        //e.preventDefault();
-        //  imageSelectorRef.current.click();
-    }
+
 
     return (
         <main>
@@ -40,25 +50,27 @@ function CreateBlog() {
                                         d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
                                     />
                                 </svg>
-                                <p
-                                // onClick={hadleImageSelect} 
-                                >Upload Your Image</p>
+                                <label
 
-                                {/* <input
+                                    className="cursor-pointer"
+                                    htmlFor="thumbnail"
+                                >Upload Your Image</label>
 
+                                <input
+                                    {...register("thumbnail")}
                                     type="file"
-                                    name="photo"
-                                    id="photo"
-                                //ref={imageSelectorRef}
-                                // className="hidden"
-                                /> */}
+                                    name="thumbnail"
+                                    id="thumbnail"
+                                    className="hidden"
+
+                                />
 
                             </div>
                         </div>
                         <div className="mb-6">
                             <Field label="" error={errors.title}>
                                 <input
-                                    {...register("tags", { required: "Adding some text is mandatory!", })}
+                                    {...register("title", { required: "Adding some text is mandatory!", })}
                                     type="text"
                                     id="title"
                                     name="title"
@@ -99,8 +111,8 @@ function CreateBlog() {
                         </button>
                     </form>
                 </div>
-            </section>
-        </main>
+            </section >
+        </main >
 
     );
 }

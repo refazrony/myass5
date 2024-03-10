@@ -1,5 +1,3 @@
-
-import { useContext } from "react";
 import BlogCard from "../../components/Home/BlogCard";
 import MostPopular from "../../components/Home/MostPopular";
 import Loading from "../../components/Others/Loading";

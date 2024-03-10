@@ -4,6 +4,8 @@ import Field from "../../components/Others/Field"
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../constexts";
+import { useProfile } from "../../Hooks/useProfile";
+import { actions } from "../../actions";
 
 
 
@@ -12,6 +14,7 @@ import { AuthContext } from "../../constexts";
 function Login() {
     const { user, setUser, BasedUrl } = useContext(AuthContext);
     const nav = useNavigate();
+    const { dispatch } = useProfile();
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -21,8 +24,13 @@ function Login() {
 
             const response = await axios.post(requestUrl, formData);
             if (response.status === 200) {
-                setUser(response.data);
 
+                setUser(response.data);
+                // const { user } = response.data;
+                dispatch({
+                    type: actions.profile.USER_DATA_EDITED,
+                    data: response.data,
+                });
                 nav('/', { replace: true });
 
             }
@@ -33,6 +41,7 @@ function Login() {
 
     }
 
+    // after login not redirect to login page again
     if (Object.keys(user).length) {
         nav(-1);
     }

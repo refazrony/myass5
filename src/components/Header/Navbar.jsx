@@ -2,17 +2,25 @@ import logo from '../../assets/logo.svg'
 import search from '../../assets/icons/search.svg'
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { AuthContext, SearchContext } from '../../constexts';
+import { SearchContext } from '../../constexts';
+import { useProfile } from '../../Hooks/useProfile';
+import { actions } from '../../actions';
 
 
 function Navbar() {
 
     const nav = useNavigate();
-    const { user, setUser } = useContext(AuthContext);
+    // const { user, setUser } = useContext(AuthContext);
     const { setSearchEnable } = useContext(SearchContext);
 
+    const { state, dispatch } = useProfile();
+    const { user } = state;
+
     const handleLogout = () => {
-        setUser({});
+        dispatch({
+            type: actions.profile.RESET,
+            data: null,
+        });
         nav("/");
     }
     return (
@@ -50,7 +58,7 @@ function Navbar() {
                         <li>
 
 
-                            {Object.keys(user).length ? (
+                            {user ? (
                                 <>
                                     <a href='#'
                                         onClick={handleLogout}
@@ -67,13 +75,18 @@ function Navbar() {
                         <li className="flex items-center">
                             {/* Circular Div with background color */}
 
-                            {Object.keys(user).length ? (<>
+                            {user ? (<>
                                 <div className="avater-img bg-orange-600 text-white">
-                                    <span >S</span>
+                                    {/* <span >S</span> */}
+                                    <img
+                                        className="max-w-full rounded-full"
+                                        src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${state?.user?.avatar}`}
+                                        alt={state?.user?.avatar}
+                                    />
 
                                 </div>
-                                <Link to="profile">
-                                    <span className="text-white ml-2">Saad Hasan</span>
+                                <Link to={"profile/" + state?.user?.id} >
+                                    <span className="text-white ml-2">{state?.user?.firstName + " " + state?.user?.lastName}</span>
                                 </Link></>) : (null)
 
                             }

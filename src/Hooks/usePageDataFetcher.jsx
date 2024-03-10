@@ -60,10 +60,10 @@ function usePageDataFetcher(url) {
         const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
 
         if (!endOfPage) {
-            console.log("true");
+            console.log('Not at the bottom of the page');
 
         } else {
-            console.log("false");
+
             fetchData();
         }
     };

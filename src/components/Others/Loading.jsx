@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-function Loading({ lastPage }) {
+function Loading({ lastPage = false }) {
     return (
         <div className="text-center blog-card">
             <div role="status">

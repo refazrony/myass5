@@ -2,7 +2,8 @@ import { actions } from "../actions";
 
 const initialState = {
   user: null,
-  posts: [],
+  token: null,
+  blogs: [],
   loading: false,
   error: null,
 };
@@ -10,11 +11,6 @@ const initialState = {
 const profileReducer = (state, action) => {
   switch (action.type) {
     case actions.profile.DATA_FETCHING: {
-      const funDelay = async () => {
-        await new Promise((r) => setTimeout(r, 1000));
-      };
-
-      funDelay();
       return {
         ...state,
         loading: true,
@@ -25,8 +21,7 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        user: action.data.user,
-        posts: action.data.posts,
+        blogs: action.data,
       };
     }
 
@@ -42,7 +37,19 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        user: action.data,
+        user: action.data.user,
+        token: action.data.token,
+      };
+    }
+
+    case actions.profile.USER_DATA_UPDATE_BIO: {
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          bio: action.data,
+        },
       };
     }
 
@@ -54,6 +61,14 @@ const profileReducer = (state, action) => {
           ...state.user,
           avatar: action.data.avatar,
         },
+      };
+    }
+
+    case actions.profile.RESET: {
+      return {
+        ...state,
+        loading: false,
+        user: null,
       };
     }
 

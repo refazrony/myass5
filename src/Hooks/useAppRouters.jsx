@@ -41,7 +41,7 @@ function useAppRouters() {
                     element: <CreateBlog />,
                 },
                 {
-                    path: "/profile",
+                    path: "/profile/:id",
                     element: <Profile />,
                 },
                 {
