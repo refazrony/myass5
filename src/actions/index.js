@@ -11,7 +11,7 @@ export const actions = {
     DATA_FETCHED_BLOG: "DATA_FETCHED_BLOG",
   },
 
-  post: {
+  blog: {
     DATA_FETCHING: "POST_DATA_FETCHING",
     DATA_FETCHED: "POST_DATA_FETCHED",
     DATA_FETCH_ERROR: "POST_DATA_FETCH_ERROR",

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import UnderratedVideo from "../../assets/blogs/Underrated Video.jpg"
+
 
 function UserBlogCard({ myblog }) {
 
@@ -9,7 +9,7 @@ function UserBlogCard({ myblog }) {
         <div className="blog-card">
             <img
                 className="blog-thumb"
-                src={UnderratedVideo}
+                src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/blog/${myblog?.thumbnail}`}
                 alt=""
             />
             <div className="mt-2">
@@ -33,7 +33,7 @@ function UserBlogCard({ myblog }) {
                         </div>
                     </div>
                     <div className="text-sm px-2 py-1 text-slate-700">
-                        <span>100 Likes</span>
+                        <span>{myblog.likes.length} Likes</span>
                     </div>
                 </div>
             </div>

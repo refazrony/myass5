@@ -2,8 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Field from "../../components/Others/Field"
 import axios from "axios";
-import { useContext } from "react";
-import { AuthContext } from "../../constexts";
+
 import { useProfile } from "../../Hooks/useProfile";
 import { actions } from "../../actions";
 import { notifyError } from "../../utls/myToast";
@@ -13,20 +12,20 @@ import { notifyError } from "../../utls/myToast";
 
 
 function Login() {
-    const { user, setUser, BasedUrl } = useContext(AuthContext);
+
     const nav = useNavigate();
     const { dispatch } = useProfile();
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const submitForms = async (formData) => {
-        const requestUrl = `${BasedUrl}/auth/login`;
+        const requestUrl = `${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`;
         try {
 
             const response = await axios.post(requestUrl, formData);
             if (response.status === 200) {
 
-                setUser(response.data);
+
                 // const { user } = response.data;
                 dispatch({
                     type: actions.profile.USER_DATA_EDITED,
@@ -46,10 +45,7 @@ function Login() {
 
     }
 
-    // after login not redirect to login page again
-    if (Object.keys(user).length) {
-        nav(-1);
-    }
+
 
 
     return (
