@@ -25,6 +25,14 @@ const profileReducer = (state, action) => {
       };
     }
 
+    case actions.profile.DATA_FETCHED_BLOG: {
+      return {
+        ...state,
+        loading: false,
+        blogs: [...state.blogs, action.data],
+      };
+    }
+
     case actions.profile.DATA_FETCH_ERROR: {
       return {
         ...state,
@@ -39,6 +47,14 @@ const profileReducer = (state, action) => {
         loading: false,
         user: action.data.user,
         token: action.data.token,
+      };
+    }
+
+    case actions.profile.USER_TOKEN_UPDATE: {
+      return {
+        ...state,
+        loading: false,
+        token: action.data,
       };
     }
 

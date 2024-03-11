@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../constexts";
 import { useProfile } from "../../Hooks/useProfile";
 import { actions } from "../../actions";
+import { notifyError } from "../../utls/myToast";
 
 
 
@@ -34,9 +35,13 @@ function Login() {
                 nav('/', { replace: true });
 
             }
+            else if (response.status === 500) {
+                notifyError(response.data.error);
+            }
         }
         catch (error) {
             console.log(error);
+
         }
 
     }
@@ -62,6 +67,7 @@ function Login() {
                                     type="email"
                                     id="email"
                                     name="email"
+                                    value={"rony@gmail.com"}
                                     className={`w-full p-3 bg-[#030317] border
                                     ${errors.email ? "border-red-500" : "border-white/20"}
                                       rounded-md focus:outline-none focus:border-indigo-500`}
@@ -85,6 +91,7 @@ function Login() {
                                     type="password"
                                     id="password"
                                     name="password"
+                                    value={"12341234"}
                                     className="w-full p-3 bg-[#030317] border border-white/20 rounded-md focus:outline-none focus:border-indigo-500"
                                 />
                             </Field>

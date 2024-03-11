@@ -1,31 +1,65 @@
 import { useForm } from "react-hook-form";
 import Field from "../../components/Others/Field";
-import { api } from "../../api";
 import useAxiosCall from "../../Hooks/useAxiosCall";
 import { useProfile } from "../../Hooks/useProfile";
-import useUserInfo from "../../Hooks/useUserInfo";
+import { actions } from "../../actions";
+import Loading from "../../components/Others/Loading";
+import { notifySucccess } from "../../utls/myToast";
+import { useNavigate } from "react-router-dom";
+
 
 
 
 function CreateBlog() {
-    const { data } = useUserInfo();
+    const { state, dispatch } = useProfile();
     const { api } = useAxiosCall();
-    const { register, handleSubmit, formState: { errors }, setError } = useForm();
+    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const navigate = useNavigate();
 
-    const handleCreateBlog = async (formData) => {
-        console.log(formData);
+
+
+
+    const handleCreateBlog = async (values) => {
+
+
+        const formData = new FormData();
+        // append image
+        for (const file of values.thumbnail) {
+            formData.append("thumbnail", file);
+        }
+        // append content
+        formData.append("title", values.content);
+        formData.append("tags", values.content);
+        formData.append("content", values.content);
+
+
+
         try {
+            dispatch({ type: actions.profile.DATA_FETCHING });
             const response = await api.post(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs`, formData);
-            console.log("response", response);
+
             if (response.status === 201) {
-                console.log("Post created successfully", response.data);
+                console.log(response.data);
+
+                dispatch({
+                    type: actions.profile.DATA_FETCHED_BLOG,
+                    data: response.data.blog
+                });
+
+                notifySucccess("Blog created successfully!");
+                navigate("/");
+
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
 
         }
-    }
+    };
 
+
+    if (state?.loading) {
+        return <div className="container"><Loading /></div>;
+    }
 
 
     return (
@@ -33,6 +67,7 @@ function CreateBlog() {
             <section>
                 <div className="container">
                     {/* Form Input field for creating Blog Post */}
+
                     <form onSubmit={handleSubmit(handleCreateBlog)} className="createBlog">
                         <div className="grid place-items-center bg-slate-600/20 h-[150px] rounded-md my-4">
                             <div className="flex items-center gap-4 hover:scale-110 transition-all cursor-pointer">

@@ -21,7 +21,8 @@ function Navbar() {
             type: actions.profile.RESET,
             data: null,
         });
-        nav("/");
+        nav("/", { replace: true, });
+        window.location.reload();
     }
     return (
 
@@ -40,12 +41,24 @@ function Navbar() {
                 <div>
                     <ul className="flex items-center space-x-5">
                         <li>
+
                             <Link
+                                to="/"
+                                className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
+                            >
+                                Home
+                            </Link>
+
+                        </li>
+                        <li>
+
+                            {user ? (<Link
                                 to="createBlog"
                                 className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
                             >
                                 Write
-                            </Link>
+                            </Link>) : (null)}
+
                         </li>
                         <li>
 

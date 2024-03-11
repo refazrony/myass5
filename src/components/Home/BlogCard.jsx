@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ActionBlog from "./ActionBlog";
 
 function BlogCard({ blogInfo, userId }) {
-    const { user } = userId;
+
     const nav = useNavigate();
 
     const handleRowClick = () => {
@@ -48,7 +48,7 @@ function BlogCard({ blogInfo, userId }) {
                     </div>
                 </div>
                 {/* action dot */}
-                {user?.id == blogInfo.author.id ? (<ActionBlog />) : (null)}
+                {userId == blogInfo.author.id ? (<ActionBlog blogId={blogInfo.id} />) : (null)}
                 {/* action dot ends */}
             </div>
         </div>

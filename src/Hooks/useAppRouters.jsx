@@ -19,9 +19,10 @@ function useAppRouters() {
             path: "/",
             element: <Home />,
             children: [
-                { index: true, element: <Indx /> },
+
                 {
                     path: "/createBlog",
+                    isPrivate: false,
                     element: <CreateBlog />,
                 },
                 {
@@ -50,6 +51,7 @@ function useAppRouters() {
                 },
             ]
         },
+        { index: true, element: <Indx /> },
 
     ]);
 
@@ -57,3 +59,44 @@ function useAppRouters() {
 }
 
 export default useAppRouters;
+
+
+// const routers = createBrowserRouter([
+//     {
+//         path: "/",
+//         element: <Home />,
+//         children: [
+//             { index: true, element: <Indx /> },
+//             {
+//                 path: "/createBlog",
+//                 isPrivate: false,
+//                 element: <CreateBlog />,
+//             },
+//             {
+//                 path: "/singleblog/:id",
+//                 element: <Singleblog />,
+//             },
+//             {
+//                 path: "/search",
+//                 element: <Search />,
+//             },
+//             {
+//                 path: "/login",
+//                 element: <Login />
+//             },
+//             {
+//                 path: "/logOut",
+//                 element: <CreateBlog />,
+//             },
+//             {
+//                 path: "/profile/:id",
+//                 element: <Profile />,
+//             },
+//             {
+//                 path: "/register",
+//                 element: <Register />,
+//             },
+//         ]
+//     },
+
+// ]);

@@ -72,7 +72,7 @@ function Profile() {
                 <div className="my-6 space-y-4">
                     {/* Blog Card Start */}
 
-                    {state.blogs?.map((blog, i) => (
+                    {state?.blogs?.map((blog, i) => (
                         <UserBlogCard key={i} myblog={blog} />
                     ))}
 

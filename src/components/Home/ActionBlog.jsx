@@ -3,11 +3,16 @@ import Tdots from "../../assets/icons/3dots.svg"
 import edit from "../../assets/icons/edit.svg"
 import Delete from "../../assets/icons/delete.svg"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAxiosCall from "../../Hooks/useAxiosCall";
+import { notifySucccess } from "../../utls/myToast";
 
 
-function ActionBlog() {
+function ActionBlog({ blogId }) {
 
     const [showActionmenu, SetShowActionMenu] = useState(false);
+    const navigate = useNavigate();
+    const { api } = useAxiosCall();
 
 
 
@@ -16,6 +21,30 @@ function ActionBlog() {
         SetShowActionMenu(!showActionmenu)
         event.stopPropagation();
     }
+
+
+    function handleEditClick(event) {
+        event.stopPropagation();
+        navigate("editBlog/" + blogId);
+    }
+
+    async function handleDeleteClick(event) {
+        event.stopPropagation();
+
+        try {
+            const response = await api.delete(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${blogId}`);
+            console.log(response);
+            if (response.status === 200) {
+                notifySucccess("One Blog Has Been Deleted .!");
+
+            }
+        } catch (error) {
+            console.error(error)
+        }
+
+
+    }
+
     return (
         <div className="absolute right-0 top-0">
             <button onClick={handleClick}>
@@ -25,11 +54,11 @@ function ActionBlog() {
 
             {showActionmenu &&
                 <div className="action-modal-container">
-                    <button className="action-menu-item hover:text-lwsGreen">
+                    <button onClick={handleEditClick} className="action-menu-item hover:text-lwsGreen">
                         <img src={edit} alt="Edit" />
                         Edit
                     </button>
-                    <button className="action-menu-item hover:text-red-500">
+                    <button onClick={handleDeleteClick} className="action-menu-item hover:text-red-500">
                         <img src={Delete} alt="Delete" />
                         Delete
                     </button>

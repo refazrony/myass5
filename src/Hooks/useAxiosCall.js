@@ -1,16 +1,18 @@
 import axios from "axios";
-import useUserInfo from "./useUserInfo";
 import { api } from "../api";
 import { useEffect } from "react";
+import { useProfile } from "./useProfile";
+import { actions } from "../actions";
 
 function useAxiosCall() {
-  const { user, setUser } = useUserInfo();
+  const { state, dispatch } = useProfile();
+  console.log(state);
 
   useEffect(() => {
     // Add a request interceptor
     const requestIntercept = api.interceptors.request.use(
       (config) => {
-        const authToken = user.token.accessToken;
+        const authToken = state?.token?.accessToken;
         if (authToken) {
           config.headers.Authorization = `Bearer ${authToken}`;
         }
@@ -27,29 +29,35 @@ function useAxiosCall() {
 
         // If the error status is 401 and there is no originalRequest._retry flag,
         // it means the token has expired and we need to refresh it
-        if (error.response.status === 401 && !originalRequest._retry) {
+        if (error.response.status === 403 && !originalRequest._retry) {
           originalRequest._retry = true;
 
           try {
-            const refreshToken = user?.token?.refreshToken;
+            const refreshToken = state?.token?.refreshToken;
+            console.log(`refreshToken Token: ${refreshToken}`);
             const response = await axios.post(
               `http://localhost:3000/auth/refresh-token`,
-              refreshToken
+              { refreshToken }
             );
-            const { token } = response.data;
+            const { accessToken } = response.data;
 
-            console.log(`New Token: ${token}`);
+            console.log(`New Token: ${accessToken}`);
 
-            setUser({
-              ...user,
-              token: {
-                ...user.token,
-                accessToken: token,
-              },
+            // setUser({
+            //   ...user,
+            //   token: {
+            //     ...user.token,
+            //     accessToken: token,
+            //   },
+            // });
+
+            dispatch({
+              type: actions.profile.USER_TOKEN_UPDATE,
+              data: response.data,
             });
 
             // Retry the original request with the new token
-            originalRequest.headers.Authorization = `Bearer ${token}`;
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return axios(originalRequest);
           } catch (error) {
             console.error(error);
@@ -64,7 +72,7 @@ function useAxiosCall() {
       api.interceptors.request.eject(requestIntercept);
       api.interceptors.response.eject(responseIntercept);
     };
-  }, [user?.token?.accessToken]);
+  }, [state?.token?.accessToken]);
 
   return { api };
 }
