@@ -11,6 +11,10 @@ function BlogCard({ blogInfo, userId }) {
         nav("singleblog/" + blogInfo.id);
     }
 
+    const handleProfileclick = () => {
+        nav("profile/" + blogInfo?.author?.id);
+    }
+
     return (
 
         <div onClick={handleRowClick} className="blog-card" >
@@ -36,7 +40,10 @@ function BlogCard({ blogInfo, userId }) {
                         </div>
                         <div>
                             <h5 className="text-slate-500 text-sm">
-                                <a href="./profile.html">{`${blogInfo.author.firstName} ${blogInfo.author.lastName}`}</a>
+                                <a onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleProfileclick(blogInfo?.id)
+                                }} >{`${blogInfo.author.firstName} ${blogInfo.author.lastName}`}</a>
                             </h5>
                             <div className="flex items-center text-xs text-slate-700">
                                 <span>{blogInfo.createdAt}June 28, 2018</span>

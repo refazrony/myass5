@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosCall from "../../Hooks/useAxiosCall";
 import { notifySucccess } from "../../utls/myToast";
+import useBlogs from "../../Hooks/useBlogs";
+import { actions } from "../../actions";
 
 
 function ActionBlog({ blogId }) {
@@ -13,6 +15,7 @@ function ActionBlog({ blogId }) {
     const [showActionmenu, SetShowActionMenu] = useState(false);
     const navigate = useNavigate();
     const { api } = useAxiosCall();
+    const { dispatch } = useBlogs();
 
 
 
@@ -35,7 +38,14 @@ function ActionBlog({ blogId }) {
             const response = await api.delete(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${blogId}`);
             console.log(response);
             if (response.status === 200) {
+
+                dispatch({
+                    type: actions.blog.BLOG_DELETE,
+                    data: blogId,
+                });
                 notifySucccess("One Blog Has Been Deleted .!");
+
+
 
             }
         } catch (error) {

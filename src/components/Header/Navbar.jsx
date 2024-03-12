@@ -24,6 +24,8 @@ function Navbar() {
         nav("/", { replace: true, });
         window.location.reload();
     }
+
+
     return (
 
         <header>

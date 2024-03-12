@@ -6,6 +6,7 @@ import axios from "axios";
 import { useProfile } from "../../Hooks/useProfile";
 import { actions } from "../../actions";
 import { notifyError } from "../../utls/myToast";
+import useBlogs from "../../Hooks/useBlogs";
 
 
 
@@ -15,7 +16,7 @@ function Login() {
 
     const nav = useNavigate();
     const { dispatch } = useProfile();
-
+    const { dispatch: Blogdispatch } = useBlogs();
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const submitForms = async (formData) => {
@@ -31,6 +32,11 @@ function Login() {
                     type: actions.profile.USER_DATA_EDITED,
                     data: response.data,
                 });
+
+                Blogdispatch({
+                    type: actions.blog.DATA_RESET,
+                });
+
                 nav('/', { replace: true });
 
             }

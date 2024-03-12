@@ -6,7 +6,7 @@ import { actions } from "../actions";
 
 function useAxiosCall() {
   const { state, dispatch } = useProfile();
-  console.log(state);
+  // console.log(state);
 
   useEffect(() => {
     // Add a request interceptor

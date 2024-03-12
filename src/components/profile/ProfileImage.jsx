@@ -10,13 +10,13 @@ import { actions } from '../../actions';
 
 
 
-function ProfileImage({ imagePath }) {
+function ProfileImage({ imagePath, isUserSelf }) {
     const { state, dispatch } = useProfile();
     const profileImageRef = useRef();
     const { api } = useAxiosCall();
 
-    console.log(state);
 
+    // console.log(state);
 
 
     const handleSelectImage = (e) => {
@@ -59,15 +59,19 @@ function ProfileImage({ imagePath }) {
                 {/* <span className="">S</span> */}
                 <img
                     className="max-w-full rounded-full"
-                    src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${imagePath}`}
+                    // eslint-disable-next-line no-extra-boolean-cast
+                    src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${isUserSelf ? imagePath : state?.user?.avatar}`}
                     alt={state?.user?.avatar}
                 />
             </div>
-            <button
-                onClick={handleSelectImage}
-                className="grid place-items-center absolute bottom-0 right-0 h-7 w-7 rounded-full bg-slate-700 hover:bg-slate-700/80">
-                <img src={edit} alt="Edit" />
-            </button>
+            {isUserSelf &&
+                <button
+                    onClick={handleSelectImage}
+                    className="grid place-items-center absolute bottom-0 right-0 h-7 w-7 rounded-full bg-slate-700 hover:bg-slate-700/80">
+                    <img src={edit} alt="Edit" />
+                </button>
+            }
+
             <input
                 ref={profileImageRef}
                 type="file"

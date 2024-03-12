@@ -4,8 +4,9 @@ import CheckIcon from "../../assets/icons/check.svg";
 import { useProfile } from '../../Hooks/useProfile';
 import useAxiosCall from '../../Hooks/useAxiosCall';
 import { actions } from '../../actions';
+import { notifySucccess } from '../../utls/myToast';
 
-function Bio() {
+function Bio({ userBio, isUserSelf }) {
 
     const { state, dispatch } = useProfile();
     const { api } = useAxiosCall();
@@ -36,6 +37,7 @@ function Bio() {
                 });
             }
             setEditMode(false);
+            notifySucccess("profile has been updated successfully");
         } catch (err) {
 
             console.log(err.message);
@@ -49,8 +51,7 @@ function Bio() {
     return (
         <div className="mt-4 flex items-start gap-2 lg:mt-6">
             <div className="flex-1">
-
-                {!editMode ? (<p className="leading-[188%] text-gray-400 lg:text-lg">
+                {!isUserSelf ? (!editMode ? (<p className="leading-[188%] text-gray-400 lg:text-lg">
                     {state?.user?.bio}
                 </p>) : (<textarea
                     className='p-2 className="leading-[188%] text-gray-600 lg:text-lg rounded-md'
@@ -58,17 +59,15 @@ function Bio() {
                     rows={4}
                     cols={55}
                     onChange={(e) => setBio(e.target.value)}
-                />)}
-
-
-
+                />)) : (<p className="leading-[188%] text-gray-400 lg:text-lg">
+                    {userBio}
+                </p>)}
             </div>
             {/* Edit Bio button. The Above bio will be editable when clicking on the button */}
 
 
 
-
-            {!editMode ? (
+            {!isUserSelf && (!editMode ? (
                 <button
                     className="flex-center h-7 w-7 rounded-full"
                     onClick={() => setEditMode(true)}
@@ -82,15 +81,8 @@ function Bio() {
                 >
                     <img src={CheckIcon} alt="Check" />
                 </button>
-            )}
+            ))}
 
-
-
-
-
-            {/* <button className="flex-center h-7 w-7 rounded-full">
-                <img src={edit} alt="Edit" />
-            </button> */}
         </div>
     );
 }

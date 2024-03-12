@@ -35,11 +35,12 @@ function CreateBlog() {
 
 
         try {
+
+
             dispatch({ type: actions.profile.DATA_FETCHING });
             const response = await api.post(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs`, formData);
 
             if (response.status === 201) {
-                console.log(response.data);
 
                 dispatch({
                     type: actions.profile.DATA_FETCHED_BLOG,
