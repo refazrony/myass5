@@ -1,19 +1,28 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import FloatingAction from "../../components/singleBlog/FloatingAction";
 import Comment from "../../components/singleBlog/Comment";
+import { formatDate } from "../../utls/mydates";
+import { useForm } from "react-hook-form";
+import Field from "../../components/Others/Field";
+import { useImmer } from "use-immer";
+import useAxiosCall from "../../Hooks/useAxiosCall";
+import { notifyError, notifySucccess } from "../../utls/myToast";
 
 
 function Singleblog() {
 
     const params = useParams()
-    const [singleblog, setSingblog] = useState();
+    const [singleblog, setSingblog] = useImmer();
 
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { api } = useAxiosCall();
 
+    console.log(singleblog);
     const getSingleBlog = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/blogs/${params.id}`);
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${params.id}`);
             setSingblog(response.data);
 
         } catch (error) {
@@ -26,6 +35,28 @@ function Singleblog() {
         getSingleBlog();
     }, []);
 
+    const handleCommentSubmit = async (values) => {
+        try {
+            const response = await api.post(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${params.id}/comment`, values);
+
+            if (response.status === 200) {
+                const newComments = response.data.comments;
+                console.log("newComments", newComments);
+                const lastElement = newComments[newComments.length - 1];
+                console.log("last Element", lastElement);
+                setSingblog(
+                    draft => {
+                        draft.comments.push({ ...lastElement })
+                    });
+                reset();
+                notifySucccess("Comment added successfully");
+            }
+        } catch (error) {
+            console.error(error);
+            notifyError("Something went wrong!", error);
+        }
+
+    }
 
     return (
         <>
@@ -39,12 +70,27 @@ function Singleblog() {
                         <div className="flex justify-center items-center my-4 gap-4">
                             <div className="flex items-center capitalize space-x-2">
                                 <div className="avater-img bg-indigo-600 text-white">
-                                    <span className="">S</span>
+
+
+                                    {
+
+                                        singleblog?.author?.avatar ? (
+                                            <img
+                                                className="max-w-full rounded-full"
+                                                src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${singleblog?.author?.avatar}`}
+                                                alt={singleblog?.author?.avatar}
+                                            />
+                                        ) : (
+                                            <span className="">{singleblog?.author?.firstName[0].toUpperCase()}</span>
+                                        )
+                                    }
+
+
                                 </div>
-                                <h5 className="text-slate-500 text-sm">Saad Hasan</h5>
+                                <h5 className="text-slate-500 text-sm">{`${singleblog?.author?.firstName} ${singleblog?.author?.lastName}`}</h5>
                             </div>
-                            <span className="text-sm text-slate-700 dot">June 28, 2018</span>
-                            <span className="text-sm text-slate-700 dot">100 Likes</span>
+                            <span className="text-sm text-slate-700 dot">{formatDate(singleblog?.createdAt)}</span>
+                            <span className="text-sm text-slate-700 dot">{singleblog?.likes.length} Likes</span>
                         </div>
                         <img
                             className="mx-auto w-full md:w-8/12 object-cover h-80 md:h-96"
@@ -53,10 +99,13 @@ function Singleblog() {
                         />
                         {/* Tags */}
                         <ul className="tags">
-                            <li>JavaScript</li>
+                            {
+                                singleblog?.tags?.split(",").map((tag, i) => (<li key={i}>{tag}</li>))
+                            }
+                            {/* <li>JavaScript</li>
                             <li>Node</li>
                             <li>React</li>
-                            <li>Next</li>
+                            <li>Next</li> */}
                         </ul>
                         {/* Content */}
                         <div className="mx-auto w-full md:w-10/12 text-slate-300 text-base md:text-lg leading-8 py-2 !text-left">
@@ -68,29 +117,46 @@ function Singleblog() {
                 {/* Begin Comments */}
                 <section id="comments">
                     <div className="mx-auto w-full md:w-10/12 container">
-                        <h2 className="text-3xl font-bold my-8">Comments (3)</h2>
+                        <h2 className="text-3xl font-bold my-8">Comments ({singleblog?.comments?.length})</h2>
                         <div className="flex items -center space-x-4">
                             <div className="avater-img bg-indigo-600 text-white">
                                 <span className="">S</span>
                             </div>
                             <div className="w-full">
-                                <textarea
-                                    className="w-full bg-[#030317] border border-slate-500 text-slate-300 p-4 rounded-md focus:outline-none"
-                                    placeholder="Write a comment"
-                                    defaultValue={""}
-                                />
-                                <div className="flex justify-end mt-4">
-                                    <button className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200">
-                                        Comment
-                                    </button>
-                                </div>
+                                <form onSubmit={handleSubmit(handleCommentSubmit)}>
+                                    <Field label="Email" error={errors.content}>
+                                        <textarea
+                                            {...register("content", { required: "comment is Required" })}
+                                            id="content"
+                                            name="content"
+                                            className="w-full bg-[#030317] border border-slate-500 text-slate-300 p-4 rounded-md focus:outline-none"
+                                            placeholder="Write a comment"
+
+                                        />
+                                    </Field>
+                                    <div className="flex justify-end mt-4">
+                                        <button type="submit" className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200">
+                                            Comment
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         {/* Comment One */}
 
-                        {singleblog?.comments?.map((c, i) => {
-                            <Comment key={i} />
-                        })}
+
+                        {
+                            singleblog?.comments?.map(comment => (
+
+
+                                <Comment key={comment.id} data={comment} />
+                            ))
+                        }
+
+
+
+
+
 
 
                     </div>
@@ -99,7 +165,14 @@ function Singleblog() {
 
 
 
-            <FloatingAction />
+            <FloatingAction blogInfo={singleblog}
+                OnLikeClick={(value, isLiked) => {
+                    setSingblog(
+                        draft => {
+                            isLiked ? draft.likes.push({ ...value }) : draft.likes.pop()
+                        });
+                }}
+            />
 
 
         </>

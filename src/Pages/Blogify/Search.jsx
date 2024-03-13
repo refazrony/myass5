@@ -2,10 +2,56 @@
 import closeIcon from '../../assets/icons/close.svg';
 import { useContext } from "react";
 import { SearchContext } from "../../constexts";
+import useDebounce from '../../Hooks/useDebounce';
+import SearchRow from '../../components/Search/SearchRow';
+import useAxiosCall from '../../Hooks/useAxiosCall';
+import { useImmer } from 'use-immer';
 
 function Search() {
 
     const { setSearchEnable } = useContext(SearchContext);
+    const { api } = useAxiosCall();
+    const [searchBlog, setBlog] = useImmer([]);
+
+    console.log("resutl", searchBlog)
+
+    const doSearch = useDebounce((value) => {
+        if (value == "") {
+            console.log("Empty");
+            console.log(value);
+            fetchAllBlogs();
+        }
+        else {
+            console.log(value);
+            funSearchByTxt(value);
+        }
+    }, 500);
+
+    function handleChange(e) {
+        const value = e.target.value;
+        doSearch(value);
+    }
+
+    function fetchAllBlogs() {
+
+    }
+
+
+    async function funSearchByTxt(value) {
+        try {
+
+            const response = await api.get("http://localhost:3000/search?q=" + value);
+            console.log(response.data.data);
+
+
+            setBlog(response.data.data);
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return (
 
@@ -18,6 +64,7 @@ function Search() {
                 <div>
                     <h3 className="font-bold text-xl pl-2 text-slate-400 my-2">Search for Your Desire Blogs</h3>
                     <input
+                        onChange={handleChange}
                         type="text"
                         placeholder="Start Typing to Search"
                         className="w-full bg-transparent p-2 text-base text-white outline-none border-none rounded-lg focus:ring focus:ring-indigo-600"
@@ -28,63 +75,14 @@ function Search() {
                 <div className="">
                     <h3 className="text-slate-400 font-bold mt-6">Search Results</h3>
                     <div className="my-4 divide-y-2 divide-slate-500/30 max-h-[440px] overflow-y-scroll overscroll-contain">
-                        <div className="flex gap-6 py-2">
-                            <img className="h-28 object-contain" src="./assets/blogs/taiulwind-cn-thumb.jpg" alt="" />
-                            <div className="mt-2">
-                                <h3 className="text-slate-300 text-xl font-bold">Style your components with TailwindCSS</h3>
-                                {/* <!-- Meta Informations --> */}
-                                <p className="mb-6 text-sm text-slate-500 mt-1">
-                                    Aenean eleifend ante maecenas pulvinar montes lorem et pede dis dolor pretium donec dictum. Vici
-                                    consequat justo enim. Venenatis eget adipiscing luctus lorem.
-                                </p>
-                            </div>
-                        </div>
 
-                        <div className="flex gap-6 py-2">
-                            <img className="h-28 object-contain" src="./assets/blogs/taiulwind-cn-thumb.jpg" alt="" />
-                            <div className="mt-2">
-                                <h3 className="text-slate-300 text-xl font-bold">Style your components with TailwindCSS</h3>
-                                {/* <!-- Meta Informations --> */}
-                                <p className="mb-6 text-sm text-slate-500 mt-1">
-                                    Aenean eleifend ante maecenas pulvinar montes lorem et pede dis dolor pretium donec dictum. Vici
-                                    consequat justo enim. Venenatis eget adipiscing luctus lorem.
-                                </p>
-                            </div>
-                        </div>
 
-                        <div className="flex gap-6 py-2">
-                            <img className="h-28 object-contain" src="./assets/blogs/taiulwind-cn-thumb.jpg" alt="" />
-                            <div className="mt-2">
-                                <h3 className="text-slate-300 text-xl font-bold">Style your components with TailwindCSS</h3>
-                                {/* <!-- Meta Informations --> */}
-                                <p className="mb-6 text-sm text-slate-500 mt-1">
-                                    Aenean eleifend ante maecenas pulvinar montes lorem et pede dis dolor pretium donec dictum. Vici
-                                    consequat justo enim. Venenatis eget adipiscing luctus lorem.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex gap-6 py-2">
-                            <img className="h-28 object-contain" src="./assets/blogs/taiulwind-cn-thumb.jpg" alt="" />
-                            <div className="mt-2">
-                                <h3 className="text-slate-300 text-xl font-bold">Style your components with TailwindCSS</h3>
-                                {/* <!-- Meta Informations --> */}
-                                <p className="mb-6 text-sm text-slate-500 mt-1">
-                                    Aenean eleifend ante maecenas pulvinar montes lorem et pede dis dolor pretium donec dictum. Vici
-                                    consequat justo enim. Venenatis eget adipiscing luctus lorem.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex gap-6 py-2">
-                            <img className="h-28 object-contain" src="./assets/blogs/taiulwind-cn-thumb.jpg" alt="" />
-                            <div className="mt-2">
-                                <h3 className="text-slate-300 text-xl font-bold">Style your components with TailwindCSS</h3>
-                                {/* <!-- Meta Informations --> */}
-                                <p className="mb-6 text-sm text-slate-500 mt-1">
-                                    Aenean eleifend ante maecenas pulvinar montes lorem et pede dis dolor pretium donec dictum. Vici
-                                    consequat justo enim. Venenatis eget adipiscing luctus lorem.
-                                </p>
-                            </div>
-                        </div>
+
+                        {searchBlog?.map((blog, i) => (
+                            <SearchRow key={i} blog={blog} />
+                        ))}
+
+
                     </div>
                 </div>
 

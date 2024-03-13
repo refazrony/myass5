@@ -14,6 +14,7 @@ function Profile() {
     const param = useParams();
     const [profileInfo, setProfileinfo] = useState({});
     const [IsLoading, setIsLoading] = useState(true);
+
     const isUserSelf = param?.id == profileInfo?.id;
     console.log("isUserSelf: ", isUserSelf)
 
@@ -22,6 +23,7 @@ function Profile() {
 
         let response;
         try {
+
             response = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/profile/${param.id}`);
             if (response.status === 200) {
                 setProfileinfo(response.data);
@@ -36,7 +38,7 @@ function Profile() {
 
     useEffect(() => {
         getProfile();
-    }, []);
+    }, [param.id]);
 
 
     if (IsLoading) {
@@ -50,7 +52,7 @@ function Profile() {
                 {/* profile info */}
                 <div className="flex flex-col items-center py-8 text-center">
                     {/* profile image */}
-                    <ProfileImage imagePath={profileInfo.avatar} isUserSelf={isUserSelf} />
+                    <ProfileImage imagePath={profileInfo.avatar} urlId={param} />
                     {/* name , email */}
                     <div>
                         <h3 className="text-2xl font-semibold text-white lg:text-[28px]">
@@ -60,7 +62,7 @@ function Profile() {
                         <p className="leading-[231%] lg:text-lg">{profileInfo?.email}</p>
                     </div>
 
-                    <Bio userBio={profileInfo.bio} isUserSelf={isUserSelf} />
+                    <Bio userBio={profileInfo.bio} urlId={param} />
 
                     <div className="w-3/4 border-b border-[#3F3F3F] py-6 lg:py-8" />
                 </div>

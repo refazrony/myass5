@@ -6,12 +6,14 @@ import { actions } from "../../actions";
 import Loading from "../../components/Others/Loading";
 import { notifySucccess } from "../../utls/myToast";
 import { useNavigate } from "react-router-dom";
+import useBlogs from "../../Hooks/useBlogs";
 
 
 
 
 function CreateBlog() {
     const { state, dispatch } = useProfile();
+    const { dispatch: BlogDispatch } = useBlogs();
     const { api } = useAxiosCall();
     const { register, handleSubmit, formState: { errors }, } = useForm();
     const navigate = useNavigate();
@@ -28,8 +30,8 @@ function CreateBlog() {
             formData.append("thumbnail", file);
         }
         // append content
-        formData.append("title", values.content);
-        formData.append("tags", values.content);
+        formData.append("title", values.title);
+        formData.append("tags", values.tags);
         formData.append("content", values.content);
 
 
@@ -46,6 +48,15 @@ function CreateBlog() {
                     type: actions.profile.DATA_FETCHED_BLOG,
                     data: response.data.blog
                 });
+
+                BlogDispatch({
+                    type: actions.blog.DATA_LOAD_MORE,
+                    data: [response.data.blog],
+                });
+
+
+                console.log([response.data.blog]);
+
 
                 notifySucccess("Blog created successfully!");
                 navigate("/");

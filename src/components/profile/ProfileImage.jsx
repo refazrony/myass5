@@ -10,13 +10,14 @@ import { actions } from '../../actions';
 
 
 
-function ProfileImage({ imagePath, isUserSelf }) {
+function ProfileImage({ imagePath, urlId }) {
     const { state, dispatch } = useProfile();
     const profileImageRef = useRef();
     const { api } = useAxiosCall();
+    const isUserSelf = (urlId.id == state?.user?.id);
 
 
-    // console.log(state);
+
 
 
     const handleSelectImage = (e) => {
@@ -60,7 +61,7 @@ function ProfileImage({ imagePath, isUserSelf }) {
                 <img
                     className="max-w-full rounded-full"
                     // eslint-disable-next-line no-extra-boolean-cast
-                    src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${isUserSelf ? imagePath : state?.user?.avatar}`}
+                    src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${!isUserSelf ? imagePath : state?.user?.avatar}`}
                     alt={state?.user?.avatar}
                 />
             </div>

@@ -6,13 +6,16 @@ import useAxiosCall from '../../Hooks/useAxiosCall';
 import { actions } from '../../actions';
 import { notifySucccess } from '../../utls/myToast';
 
-function Bio({ userBio, isUserSelf }) {
+function Bio({ userBio, urlId }) {
 
     const { state, dispatch } = useProfile();
     const { api } = useAxiosCall();
 
     const [editMode, setEditMode] = useState(false);
     const [bio, setBio] = useState(state?.user?.bio);
+
+    const isUserSelf = (urlId.id == state?.user?.id);
+    console.log(isUserSelf)
 
 
     const handleBioEdit = async () => {
@@ -51,7 +54,7 @@ function Bio({ userBio, isUserSelf }) {
     return (
         <div className="mt-4 flex items-start gap-2 lg:mt-6">
             <div className="flex-1">
-                {!isUserSelf ? (!editMode ? (<p className="leading-[188%] text-gray-400 lg:text-lg">
+                {isUserSelf ? (!editMode ? (<p className="leading-[188%] text-gray-400 lg:text-lg">
                     {state?.user?.bio}
                 </p>) : (<textarea
                     className='p-2 className="leading-[188%] text-gray-600 lg:text-lg rounded-md'
@@ -67,7 +70,7 @@ function Bio({ userBio, isUserSelf }) {
 
 
 
-            {!isUserSelf && (!editMode ? (
+            {isUserSelf && (!editMode ? (
                 <button
                     className="flex-center h-7 w-7 rounded-full"
                     onClick={() => setEditMode(true)}

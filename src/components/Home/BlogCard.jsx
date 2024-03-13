@@ -2,6 +2,7 @@
 
 import { useNavigate } from "react-router-dom";
 import ActionBlog from "./ActionBlog";
+import { formatDate } from "../../utls/mydates";
 
 function BlogCard({ blogInfo, userId }) {
 
@@ -34,19 +35,32 @@ function BlogCard({ blogInfo, userId }) {
                 </p>
                 {/* Meta Informations */}
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center capitalize space-x-2">
+                    <div onClick={(e) => {
+                        e.stopPropagation()
+                        handleProfileclick(blogInfo?.id)
+                    }} className="flex items-center capitalize space-x-2">
                         <div className="avater-img bg-indigo-600 text-white">
-                            <span className="">S</span>
+                            {
+
+                                blogInfo.author.avatar ? (
+                                    <img
+                                        className="max-w-full rounded-full"
+                                        src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${blogInfo?.author?.avatar}`}
+                                        alt={blogInfo.author.avatar}
+                                    />
+                                ) : (
+                                    <span className="">{blogInfo.author.firstName[0].toUpperCase()}</span>
+                                )
+                            }
+
+
                         </div>
                         <div>
                             <h5 className="text-slate-500 text-sm">
-                                <a onClick={(e) => {
-                                    e.stopPropagation()
-                                    handleProfileclick(blogInfo?.id)
-                                }} >{`${blogInfo.author.firstName} ${blogInfo.author.lastName}`}</a>
+                                <a  >{`${blogInfo.author.firstName} ${blogInfo.author.lastName}`}</a>
                             </h5>
                             <div className="flex items-center text-xs text-slate-700">
-                                <span>{blogInfo.createdAt}June 28, 2018</span>
+                                <span>{formatDate(blogInfo.createdAt)}</span>
                             </div>
                         </div>
                     </div>

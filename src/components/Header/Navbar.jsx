@@ -63,12 +63,13 @@ function Navbar() {
 
                         </li>
                         <li>
-
-                            <a onClick={() => setSearchEnable(true)} className="flex items-center gap-2 cursor-pointer">
-                                <img src={search}
-                                    alt="Search" />
-                                <span>Search</span>
-                            </a>
+                            {user &&
+                                <a onClick={() => setSearchEnable(true)} className="flex items-center gap-2 cursor-pointer">
+                                    <img src={search}
+                                        alt="Search" />
+                                    <span>Search</span>
+                                </a>
+                            }
                         </li>
                         <li>
 
