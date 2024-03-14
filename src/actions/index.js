@@ -9,6 +9,7 @@ export const actions = {
     USER_DATA_UPDATE_BIO: "USER_DATA_UPDATE_BIO",
     USER_TOKEN_UPDATE: "USER_TOKEN_UPDATE",
     DATA_FETCHED_BLOG: "DATA_FETCHED_BLOG",
+    UPDATE_BLOG: "UPDATE_BLOG",
   },
 
   blog: {
@@ -20,5 +21,6 @@ export const actions = {
     DATA_RESET: "DATA_RESET",
     IS_LAST_PAGE: "IS_LAST_PAGE",
     BLOG_DELETE: "BLOG_DELETE",
+    UPDATE_BLOG: "UPDATE_BLOG",
   },
 };

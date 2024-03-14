@@ -5,7 +5,7 @@ import { formatDate } from "../../utls/mydates";
 
 
 function UserBlogCard({ myblog }) {
-    console.log(myblog);
+
 
     return (
         <div className="blog-card">

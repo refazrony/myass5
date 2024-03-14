@@ -42,8 +42,6 @@ function Search() {
 
             const response = await api.get("http://localhost:3000/search?q=" + value);
             console.log(response.data.data);
-
-
             setBlog(response.data.data);
 
 

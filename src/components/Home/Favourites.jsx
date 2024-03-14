@@ -7,6 +7,7 @@ function Favourites() {
 
     const { api } = useAxiosCall();
     const [fev, setFev] = useImmer();
+
     const getFavourite = async () => {
         try {
 
@@ -56,7 +57,10 @@ function Favourites() {
                                 </Link>
                             </h3>
                             <p className="text-slate-600 text-sm">
-                                #tailwindcss, #server, #ubuntu
+                                {itm.tags.split(",")
+                                    .map((item) => "#" + item)
+                                    .join(",")
+                                }
                             </p>
                         </li>
                     ))

@@ -9,24 +9,30 @@ import Field from "../../components/Others/Field";
 import { useImmer } from "use-immer";
 import useAxiosCall from "../../Hooks/useAxiosCall";
 import { notifyError, notifySucccess } from "../../utls/myToast";
+import RoundImage from "../../components/Others/RoundImage";
+import { useProfile } from "../../Hooks/useProfile";
 
 
 function Singleblog() {
 
     const params = useParams()
     const [singleblog, setSingblog] = useImmer();
+    const { state: userInfo } = useProfile();
+
+
+
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const { api } = useAxiosCall();
 
-    console.log(singleblog);
+
     const getSingleBlog = async () => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${params.id}`);
             setSingblog(response.data);
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
 
     }
@@ -102,10 +108,7 @@ function Singleblog() {
                             {
                                 singleblog?.tags?.split(",").map((tag, i) => (<li key={i}>{tag}</li>))
                             }
-                            {/* <li>JavaScript</li>
-                            <li>Node</li>
-                            <li>React</li>
-                            <li>Next</li> */}
+
                         </ul>
                         {/* Content */}
                         <div className="mx-auto w-full md:w-10/12 text-slate-300 text-base md:text-lg leading-8 py-2 !text-left">
@@ -120,11 +123,12 @@ function Singleblog() {
                         <h2 className="text-3xl font-bold my-8">Comments ({singleblog?.comments?.length})</h2>
                         <div className="flex items -center space-x-4">
                             <div className="avater-img bg-indigo-600 text-white">
-                                <span className="">S</span>
+                                {/* <span className="">S</span> */}
+                                <RoundImage author={userInfo.user} />
                             </div>
                             <div className="w-full">
                                 <form onSubmit={handleSubmit(handleCommentSubmit)}>
-                                    <Field label="Email" error={errors.content}>
+                                    <Field label="" error={errors.content}>
                                         <textarea
                                             {...register("content", { required: "comment is Required" })}
                                             id="content"
@@ -165,7 +169,7 @@ function Singleblog() {
 
 
 
-            <FloatingAction blogInfo={singleblog}
+            <FloatingAction blogInfo={singleblog} blogid={params.id}
                 OnLikeClick={(value, isLiked) => {
                     setSingblog(
                         draft => {

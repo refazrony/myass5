@@ -15,9 +15,6 @@ function Profile() {
     const [profileInfo, setProfileinfo] = useState({});
     const [IsLoading, setIsLoading] = useState(true);
 
-    const isUserSelf = param?.id == profileInfo?.id;
-    console.log("isUserSelf: ", isUserSelf)
-
 
     const getProfile = async () => {
 
@@ -27,7 +24,7 @@ function Profile() {
             response = await axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/profile/${param.id}`);
             if (response.status === 200) {
                 setProfileinfo(response.data);
-                console.log(response.data);
+
                 setIsLoading(false);
             }
         } catch (error) {

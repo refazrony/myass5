@@ -15,7 +15,6 @@ function Bio({ userBio, urlId }) {
     const [bio, setBio] = useState(state?.user?.bio);
 
     const isUserSelf = (urlId.id == state?.user?.id);
-    console.log(isUserSelf)
 
 
     const handleBioEdit = async () => {
@@ -33,7 +32,7 @@ function Bio({ userBio, urlId }) {
             );
 
             if (response.status === 200) {
-                console.log(response.data);
+
                 dispatch({
                     type: actions.profile.USER_DATA_UPDATE_BIO,
                     data: response.data.user.bio,

@@ -11,6 +11,7 @@ import Singleblog from "../Pages/Blogify/Singleblog";
 import { useContext } from "react";
 import Search from "../Pages/Blogify/Search";
 import { SearchContext } from "../constexts";
+import EditBlog from "../Pages/Blogify/EditBlog";
 
 
 
@@ -29,7 +30,7 @@ function Blogify() {
                     {/* <Route element={<Home />} path="/" exact /> */}
                     <Route element={<Profile />} path="/profile/:id" />
                     <Route element={<CreateBlog />} path="/createBlog" />
-                    <Route element={<CreateBlog />} path="/editBlog/:id" />
+                    <Route element={<EditBlog />} path="/editBlog/:id" />
                     <Route element={<Singleblog />} path="/singleblog/:id" />
                 </Route>
 

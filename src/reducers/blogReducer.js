@@ -33,6 +33,21 @@ function blogReducer(state, action) {
       };
     }
 
+    case actions.blog.UPDATE_BLOG: {
+      const updatedArray = state.allBlogs.map((item) => {
+        if (item.id === action.data.id) {
+          return { ...action.data };
+        }
+        return item;
+      });
+
+      return {
+        ...state,
+        loading: false,
+        allBlogs: updatedArray,
+      };
+    }
+
     case actions.blog.BLOG_DELETE: {
       const newAllBlogs = state.allBlogs.filter(
         (item) => item.id !== action.data

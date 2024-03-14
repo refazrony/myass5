@@ -1,5 +1,5 @@
 import axios from "axios";
-import { api } from "../api";
+import { api } from "../blogMainpoint";
 import { useEffect } from "react";
 import { useProfile } from "./useProfile";
 import { actions } from "../actions";

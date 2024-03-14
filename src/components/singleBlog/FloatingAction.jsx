@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { notifyError, notifySucccess } from "../../utls/myToast";
 import { useImmer } from "use-immer";
 
-function FloatingAction({ blogInfo, OnLikeClick }) {
+function FloatingAction({ blogInfo, OnLikeClick, blogid }) {
 
 
     const { api } = useAxiosCall();
@@ -42,8 +42,7 @@ function FloatingAction({ blogInfo, OnLikeClick }) {
             const response = await api.get(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs/favourites`);
 
             if (response.status === 200) {
-                let result = response?.data?.blogs.filter(obj => obj.id == blogInfo.id);
-
+                let result = response?.data?.blogs.filter(obj => obj.id == blogid);
                 result.length > 0 ? setIsfev(true) : setIsfev(false);
 
 
@@ -52,7 +51,7 @@ function FloatingAction({ blogInfo, OnLikeClick }) {
             }
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
 
         }
 
@@ -65,15 +64,9 @@ function FloatingAction({ blogInfo, OnLikeClick }) {
 
 
     async function handleLickClick() {
-
-
-
         try {
-
             const response = await api.post(`${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${blogInfo?.id}/like`);
-
             if (response.status === 200) {
-
                 OnLikeClick(response.data.likes, response.data.isLiked)
                 notifySucccess('You liked this blog');
             } else if (response.status === 404) {
@@ -86,8 +79,6 @@ function FloatingAction({ blogInfo, OnLikeClick }) {
 
         }
     }
-
-
 
 
 

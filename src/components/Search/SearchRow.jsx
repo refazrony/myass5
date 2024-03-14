@@ -1,6 +1,6 @@
 function SearchRow({ blog }) {
 
-    console.log(blog);
+
     return (
         <div className="flex gap-6 py-2">
             <img className="h-28 object-contain" src="./assets/blogs/taiulwind-cn-thumb.jpg" alt="" />
